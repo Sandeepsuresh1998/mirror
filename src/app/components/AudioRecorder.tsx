@@ -5,7 +5,21 @@ const AudioRecorder = () => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [audioUrl, setAudioUrl] = useState<string>('');
   const [chunks, setChunks] = useState<Blob[]>([]);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+
+  const callWhisperTranscription = async (blob: Blob) => {
+    fetch(
+      '/api/transcribe', 
+      {
+           method: 'POST', 
+           body: blob,
+           headers: {
+              'Content-Type': 'audio/wav'
+           }
+    }).then(resp => {
+      console.log(resp)
+    });
+  }
 
   useEffect(() => {
     // Request permissions to record audio
@@ -22,25 +36,28 @@ const AudioRecorder = () => {
       });
   }, []);
 
+
+  useEffect(() => {
+    if (chunks.length > 0) {
+      const blob = new Blob(chunks, { type: 'audio/wav' });
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+      callWhisperTranscription(blob);
+    }
+  }, [chunks])
+
   const startRecording = () => {
     if (mediaRecorder) {
+      setChunks([]);
+      /*
+       * Important context: By not passing in any time variable into the start call
+       * the media recorder will only send the data to the ondataavaiable event listener
+       * after you actually click start. So in this kind of functionality, the useEffect
+       * on chunks only actually gets fired once. If you wanted to have live transcription
+       * you could do it by setting some kind of frequency here. 
+       */
       mediaRecorder.start();
       setIsRecording(true);
-      intervalRef.current = setInterval(() => {
-        const blob = new Blob(chunks, { type: 'audio/wav' });
-        const url = URL.createObjectURL(blob);
-        setAudioUrl(url);
-        // Make API request here with the url
-        fetch(
-            '/api/transcribe', 
-            {
-                 method: 'POST', 
-                 body: blob,
-                 headers: {
-                    'Content-Type': 'audio/wav'
-                 }
-            });
-      }, 5000);
     }
   };
 
@@ -48,9 +65,8 @@ const AudioRecorder = () => {
     if (mediaRecorder) {
       mediaRecorder.stop();
       setIsRecording(false);
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      // Make API request here with the url
+      const blob = new Blob(chunks, { type: 'audio/wav' });
     }
   };
 
