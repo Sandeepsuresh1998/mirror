@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import OpenAI from "openai";
-import { promisify } from 'util';
-import { pipeline, Readable } from "stream";
 import axios from "axios";
 import FormData from "form-data";
 
@@ -22,6 +19,8 @@ export async function POST(request: NextRequest) {
 
     formData.append("model", "whisper-1");
 
+    console.log(audioData)
+
 
     // Send the request to the OpenAI Whisper API
     const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
@@ -31,11 +30,16 @@ export async function POST(request: NextRequest) {
         },
     });
 
+    if (response.status != 200) {
+        console.log(response.status)
+        console.log(response.data)
+    }
+
     // Handle the response from the Whisper API
     const transcription = response.data.text;
     console.log(transcription)
 
-    return new Response(JSON.stringify({ transcription }), {
+    return new NextResponse(JSON.stringify({ transcription }), {
         status: 200,
         headers: {
             'Content-Type': 'application/json',
