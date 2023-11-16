@@ -33,8 +33,11 @@ const AudioRecorder = () => {
             setChunks((prev) => [...prev, event.data]);
           }
         };
+      })
+      .catch(error => {
+        console.log("Unable to get the media stream for the device")
       });
-  }, []);
+  }, []);   
 
 
   useEffect(() => {
