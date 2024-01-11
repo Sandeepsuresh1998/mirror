@@ -12,3 +12,8 @@
   .authButton:hover {
     background-color: #f2f2f2;
   }
+
+  .authButton a {
+    text-decoration: none;
+    color: #302B27;
+  }
