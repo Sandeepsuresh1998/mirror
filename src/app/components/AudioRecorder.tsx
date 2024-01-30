@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
+import MicIcon from '@mui/icons-material/Mic';
+import StopIcon from '@mui/icons-material/Stop';
+import IconButton from '@mui/material/IconButton';
+import { NextResponse } from 'next/server';
 
-const AudioRecorder = () => {
+type AudioRecorderProps = {
+  onTranscriptionUpdate: (transcription: string) => void;
+};
+
+
+
+const AudioRecorder = ({onTranscriptionUpdate}: AudioRecorderProps) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [audioUrl, setAudioUrl] = useState<string>('');
@@ -8,7 +18,7 @@ const AudioRecorder = () => {
 
 
   const callWhisperTranscription = async (blob: Blob) => {
-    fetch(
+    const resp = await fetch(
       '/api/transcribe', 
       {
            method: 'POST', 
@@ -16,9 +26,10 @@ const AudioRecorder = () => {
            headers: {
               'Content-Type': 'audio/wav'
            }
-    }).then(resp => {
-      console.log(resp)
-    });
+    })
+    const data = await resp.json();
+    console.log(data);
+    onTranscriptionUpdate(data.transcription);
   }
 
   useEffect(() => {
@@ -75,9 +86,9 @@ const AudioRecorder = () => {
 
   return (
     <div>
-      <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? 'Stop Recording' : 'Start Recording'}
-      </button>
+      <IconButton onClick={isRecording ? stopRecording : startRecording}>
+        {isRecording ? <StopIcon /> : <MicIcon />}
+      </IconButton>
       {audioUrl && <audio src={audioUrl} controls />}
     </div>
   );

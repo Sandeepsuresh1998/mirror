@@ -4,12 +4,19 @@ import React, { useState } from "react";
 import styles from "../page.module.css";
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
+import AudioRecorder from "../components/AudioRecorder";
 
 export default withPageAuthRequired(
   function Journals() {
+
+    
     const { user, error, isLoading } = useUser();
     const [text, setText] = useState('');
-    console.log(user?.sub);
+
+
+    const handleTranscriptionUpdate = (transcription: string) => {
+      setText(transcription);
+    };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -27,6 +34,7 @@ export default withPageAuthRequired(
     return (
       <main className={styles.main}>
         Hello {user?.name}
+        <AudioRecorder onTranscriptionUpdate={handleTranscriptionUpdate}/>
         <form onSubmit={handleSubmit}>
           <textarea value={text} onChange={e => setText(e.target.value)} />
           <button type="submit">Submit</button>

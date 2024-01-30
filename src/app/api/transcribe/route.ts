@@ -18,9 +18,7 @@ export async function POST(request: NextRequest) {
     });
 
     formData.append("model", "whisper-1");
-
-    console.log(audioData)
-
+    console.log("Received audio data, sending to transciption API")
 
     // Send the request to the OpenAI Whisper API
     const response = await axios.post('https://api.openai.com/v1/audio/transcriptions', formData, {
@@ -30,16 +28,27 @@ export async function POST(request: NextRequest) {
         },
     });
 
+    // Handle an error from the Whisper API
     if (response.status != 200) {
-        console.log(response.status)
-        console.log(response.data)
+        return new NextResponse(JSON.stringify({ 
+            error: 'Transcription failed' 
+        }), {
+            status: response.status,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
     }
+
+    console.log("Successfully transcribed audio data")
 
     // Handle the response from the Whisper API
     const transcription = response.data.text;
-    console.log(transcription)
+    console.log("Transcription:" , transcription)
 
-    return new NextResponse(JSON.stringify({ transcription }), {
+    return new NextResponse(JSON.stringify({ 
+        transcription: transcription 
+    }), {
         status: 200,
         headers: {
             'Content-Type': 'application/json',
