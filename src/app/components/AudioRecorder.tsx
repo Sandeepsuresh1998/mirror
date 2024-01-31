@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MicIcon from '@mui/icons-material/Mic';
 import StopIcon from '@mui/icons-material/Stop';
 import IconButton from '@mui/material/IconButton';
@@ -17,7 +17,7 @@ const AudioRecorder = ({onTranscriptionUpdate}: AudioRecorderProps) => {
   const [chunks, setChunks] = useState<Blob[]>([]);
 
 
-  const callWhisperTranscription = async (blob: Blob) => {
+  const callWhisperTranscription = useCallback(async (blob: Blob) => {
     const resp = await fetch(
       '/api/transcribe', 
       {
@@ -30,7 +30,7 @@ const AudioRecorder = ({onTranscriptionUpdate}: AudioRecorderProps) => {
     const data = await resp.json();
     console.log(data);
     onTranscriptionUpdate(data.transcription);
-  }
+  }, [onTranscriptionUpdate]);
 
   useEffect(() => {
     // Request permissions to record audio
@@ -58,7 +58,7 @@ const AudioRecorder = ({onTranscriptionUpdate}: AudioRecorderProps) => {
       setAudioUrl(url);
       callWhisperTranscription(blob);
     }
-  }, [chunks])
+  }, [chunks, callWhisperTranscription])
 
   const startRecording = () => {
     if (mediaRecorder) {

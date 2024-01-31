@@ -9,17 +9,18 @@ import LoadingPage from './components/LoadingPage';
 
 export default function Landing() {
 
-  const { user, error, isLoading } = useUser();
-  if (isLoading) return <LoadingPage />;
-  if (error) return <div>{error.message}</div>;
   const router = useRouter();
-
+  const { user, error, isLoading } = useUser();
+  
   useEffect(() => {
     if (!isLoading && user) {
       router.push("/journal");
     }
   }, [user, isLoading]);
-
+  
+  if (isLoading) return <LoadingPage />;
+  if (error) return <div>{error.message}</div>;
+  
   return (
     <main className={styles.main}>
         <div>
