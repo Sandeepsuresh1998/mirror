@@ -16,7 +16,7 @@ export default function Landing() {
 
   useEffect(() => {
     if (!isLoading && user) {
-      router.push("/journals");
+      router.push("/journal");
     }
   }, [user, isLoading]);
 
