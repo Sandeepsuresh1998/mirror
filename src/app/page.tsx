@@ -22,12 +22,10 @@ export default function Landing() {
 
   return (
     <main className={styles.main}>
-      
         <div>
           {user?.name}
         </div>
         {user ? <LogoutButton/> : <LoginButton/>}
-      
     </main>
   )
 }

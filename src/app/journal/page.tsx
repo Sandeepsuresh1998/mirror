@@ -5,6 +5,7 @@ import styles from "../page.module.css";
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import AudioRecorder from "../components/AudioRecorder";
+import Navbar from "../components/NavBar";
 
 export default withPageAuthRequired(
   function Journals() {
@@ -33,12 +34,13 @@ export default withPageAuthRequired(
 
     return (
       <main className={styles.main}>
-        Hello {user?.name}
+        <Navbar/>
+          Hello {user?.name}
         <AudioRecorder onTranscriptionUpdate={handleTranscriptionUpdate}/>
-        <form onSubmit={handleSubmit}>
+        {/* <form onSubmit={handleSubmit}>
           <textarea value={text} onChange={e => setText(e.target.value)} />
           <button type="submit">Submit</button>
-        </form>
+        </form> */}
       </main>
     )
   }

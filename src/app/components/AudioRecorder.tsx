@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import MicIcon from '@mui/icons-material/Mic';
 import StopIcon from '@mui/icons-material/Stop';
 import IconButton from '@mui/material/IconButton';
-import { NextResponse } from 'next/server';
+import styles from './styles/AudioRecorder.module.css';
 
 type AudioRecorderProps = {
   onTranscriptionUpdate: (transcription: string) => void;
@@ -85,7 +85,7 @@ const AudioRecorder = ({onTranscriptionUpdate}: AudioRecorderProps) => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <IconButton onClick={isRecording ? stopRecording : startRecording}>
         {isRecording ? <StopIcon /> : <MicIcon />}
       </IconButton>
