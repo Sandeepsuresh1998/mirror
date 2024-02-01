@@ -9,7 +9,7 @@ export default withPageAuthRequired(
     const { user, error, isLoading } = useUser();
     
     return (
-      <main className={styles.main}>
+      <main className={`${styles.main} ${styles.theme}`}>
         <Navbar/>
         <h1>FAQ</h1>
         <h2>Question 1</h2>

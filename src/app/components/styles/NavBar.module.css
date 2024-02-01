@@ -1,0 +1,49 @@
+/* CSS file: NavBar.css */
+
+.header {
+    display: flex;
+    height: 20px;
+    width: 100%;
+    padding: 8px;
+    padding-top: 30px;
+    position: fixed;
+    align-items: center;
+    top: 1px;
+    z-index: 50;
+}
+
+.header .link {
+    margin-right: 6px;
+}
+
+.header .icon {
+    font-size: 40px;
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+    padding-left: 20px;
+}
+
+.nav .link {
+    font-size: small;
+    font-weight: medium;
+    transition: colors;
+    color: #000;
+    padding: 60px;
+}
+
+.nav .link:hover {
+    color: #3D3D3D;
+}
+
+.nav .link:focus {
+    outline: none;
+    color: #3D3D3D;
+}
+
+.logout {
+    margin-left: auto;
+    margin-right: 20px;
+}

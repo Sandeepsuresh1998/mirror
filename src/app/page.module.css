@@ -6,3 +6,14 @@
   align-items: center;
   justify-content: center;
 }
+
+
+.theme {
+  color: #000000;
+  background-color: #eee1b8;
+}
+
+.theme2 {
+  color: #eee1b8;
+  background-color: #000000;
+}

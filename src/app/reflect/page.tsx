@@ -9,7 +9,7 @@ export default withPageAuthRequired(
     const { user, error, isLoading } = useUser();
     
     return (
-      <main className={styles.main}>
+      <main className={`${styles.main} ${styles.theme}`}>
         <Navbar/>
         Time to Reflect {user?.name}
       </main>

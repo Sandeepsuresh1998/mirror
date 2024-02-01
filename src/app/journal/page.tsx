@@ -1,18 +1,24 @@
-'use client';
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 // import TipTap from '../components/TipTap'; TODO: Add when ready
-import styles from "../page.module.css";
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0/client';
 import axios from 'axios';
 import AudioRecorder from "../components/AudioRecorder";
 import Navbar from "../components/NavBar";
+import styles from "../page.module.css";
+import journalStyles from "../components/styles/Journal.module.css";
 
 export default withPageAuthRequired(
   function Journals() {
 
-    
     const { user, error, isLoading } = useUser();
     const [text, setText] = useState('');
+    const [startedRecording, setStartedRecording] = useState(false);
+
+
+    const handleOnRecordingStart = () => {
+      setStartedRecording(true);
+    }
 
 
     const handleTranscriptionUpdate = (transcription: string) => {
@@ -33,14 +39,25 @@ export default withPageAuthRequired(
     };
 
     return (
-      <main className={styles.main}>
-        <Navbar/>
-          Hello {user?.name}
-        <AudioRecorder onTranscriptionUpdate={handleTranscriptionUpdate}/>
-        {/* <form onSubmit={handleSubmit}>
-          <textarea value={text} onChange={e => setText(e.target.value)} />
-          <button type="submit">Submit</button>
-        </form> */}
+      <main className={`${styles.main} ${styles.theme}`}>
+          <Navbar/>
+        <div className={journalStyles.container}>
+          <div>
+            <AudioRecorder onTranscriptionUpdate={handleTranscriptionUpdate} onRecordingStart={handleOnRecordingStart}/>
+          </div>
+
+          {startedRecording && 
+            <div className={journalStyles.journal}>
+              <h1>Journal</h1>
+                <p> {text} </p>
+            </div>
+            /* <form onSubmit={handleSubmit}>
+            <textarea value={text} onChange={e => setText(e.target.value)} />
+            <button type="submit">Submit</button>
+            </form> */
+          }
+        </div>
+        
       </main>
     )
   }
