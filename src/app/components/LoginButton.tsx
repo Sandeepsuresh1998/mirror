@@ -1,10 +1,16 @@
 import React from 'react';
 import styles from './styles/AuthButton.module.css';
-import Button from '@mui/material/Button';
+import Link from 'next/link';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const LoginButton = () => {
+  const [loading, setLoading] = React.useState(false);
   return (
-    <Button variant="contained" href='/api/auth/login' className={styles.authButton}>Login</Button>
+    <Link href='/api/auth/login'>
+      <button className={styles.authButton} onClick={() => setLoading(true)}>
+        {loading ? <CircularProgress /> : "Login"}
+      </button>
+    </Link>
   );
 };
 
