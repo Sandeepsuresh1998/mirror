@@ -1,33 +1,26 @@
-import Link from "next/link"
+import Link from "next/link";
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import styles from './styles/NavBar.module.css';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 export default function Component() {
-  return (
-    <header className="flex h-20 w-full items-center px-4 md:px-6 fixed top-0 z-50">
-      <Link className="mr-6" href="#">
-        <AutoStoriesIcon style={{ fontSize: 40 }}/>
-        <span className="sr-only">Logo</span>
-      </Link>
-      <nav className="flex gap-6">
-        <Link
-          className="text-sm font-medium transition-colors hover:text-gray-900 focus:outline-none focus:text-gray-900 dark:hover:text-gray-50 dark:focus:text-gray-50"
-          href="/journal"
-        >
-          Journal
-        </Link>
-        <Link
-          className="text-sm font-medium transition-colors hover:text-gray-900 focus:outline-none focus:text-gray-900 dark:hover:text-gray-50 dark:focus:text-gray-50"
-          href="/reflect"
-        >
-          Reflect
-        </Link>
-        <Link
-          className="text-sm font-medium transition-colors hover:text-gray-900 focus:outline-none focus:text-gray-900 dark:hover:text-gray-50 dark:focus:text-gray-50"
-          href="/faq"
-        >
-          FAQ
-        </Link>
-      </nav>
-    </header>
-  )
+
+    return (
+        <header className={styles.header}>
+            <Link className={styles.link} href="#">
+                <AutoStoriesIcon className="icon" style={{ fontSize: 30 }}/>
+                <span className="sr-only">Logo</span>
+            </Link>
+            <nav className={styles.nav}>
+                <Link className="link" href="/journal">Journal</Link>
+                <Link className="link" href="/reflect">Reflect</Link>
+                <Link className="link" href="/faq">FAQ</Link>
+            </nav>
+            <Link className={styles.logout} href="/api/auth/logout">
+                <LogoutIcon className="icon" style={{ fontSize: 30 }}/>
+                <span className="sr-only">Logout</span>
+            </Link>
+        </header>
+    )
 }

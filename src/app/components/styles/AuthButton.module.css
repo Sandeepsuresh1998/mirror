@@ -1,19 +1,9 @@
 .authButton {
-    margin: 0 auto; /* Center the button */
-    padding: 10px 20px;
-    width: max-content; /* Ensure width is content-based */
-    background-color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-    
-  .authButton:hover {
-    background-color: #f2f2f2;
-  }
+  color: #eee1b8;
+  background-color: #000000;
+}
 
-  .authButton a {
-    text-decoration: none;
-    color: #302B27;
-  }
+.authButton:hover {
+  color: #000000;
+  background-color: #eee1b8;
+}

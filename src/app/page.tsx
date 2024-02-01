@@ -22,11 +22,8 @@ export default function Landing() {
   if (error) return <div>{error.message}</div>;
   
   return (
-    <main className={styles.main}>
-        <div>
-          {user?.name}
-        </div>
-        {user ? <LogoutButton/> : <LoginButton/>}
+    <main className={`${styles.main} ${styles.theme}`}>
+        {!user && <LoginButton/>}
     </main>
   )
 }

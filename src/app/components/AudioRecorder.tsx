@@ -6,11 +6,12 @@ import styles from './styles/AudioRecorder.module.css';
 
 type AudioRecorderProps = {
   onTranscriptionUpdate: (transcription: string) => void;
+  onRecordingStart: () => void;
 };
 
 
 
-const AudioRecorder = ({onTranscriptionUpdate}: AudioRecorderProps) => {
+const AudioRecorder = ({onTranscriptionUpdate, onRecordingStart}: AudioRecorderProps) => {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [audioUrl, setAudioUrl] = useState<string>('');
@@ -31,6 +32,13 @@ const AudioRecorder = ({onTranscriptionUpdate}: AudioRecorderProps) => {
     console.log(data);
     onTranscriptionUpdate(data.transcription);
   }, [onTranscriptionUpdate]);
+
+
+  useEffect(() => {
+    if (isRecording) {
+      onRecordingStart();
+    }
+  }, [isRecording, onRecordingStart]);
 
   useEffect(() => {
     // Request permissions to record audio

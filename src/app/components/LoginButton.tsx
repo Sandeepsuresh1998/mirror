@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 
 const LoginButton = () => {
   return (
-    <Button variant="contained" href='/api/auth/login' style={{color: '#131c04' }}>Login</Button>
+    <Button variant="contained" href='/api/auth/login' className={styles.authButton}>Login</Button>
   );
 };
 
