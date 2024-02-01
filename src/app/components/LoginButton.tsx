@@ -4,13 +4,17 @@ import Link from 'next/link';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const LoginButton = () => {
-  const [loading, setLoading] = React.useState(false);
+  const [isLoading, setLoading] = React.useState(false);
   return (
-    <Link href='/api/auth/login'>
-      <button className={styles.authButton} onClick={() => setLoading(true)}>
-        {loading ? <CircularProgress /> : "Login"}
-      </button>
-    </Link>
+    <div>
+      {isLoading ? <CircularProgress /> : 
+        <Link href='/api/auth/login'>
+          <button className={styles.authButton} onClick={() => setLoading(true)}>
+            {isLoading ? <CircularProgress /> : "Login"}
+          </button>
+        </Link>
+      }
+    </div>
   );
 };
 
