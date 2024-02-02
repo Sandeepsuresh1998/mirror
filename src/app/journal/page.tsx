@@ -20,7 +20,6 @@ export default withPageAuthRequired(
       setStartedRecording(true);
     }
 
-
     const handleTranscriptionUpdate = (transcription: string) => {
       setText(transcription);
     };
@@ -32,7 +31,8 @@ export default withPageAuthRequired(
           'user_id': user?.sub,
           'text': text,
         });
-        console.log(response.data);
+
+        // TODO: Catch errors with the API
       } catch (error) {
         console.error(error);
       }
@@ -50,14 +50,12 @@ export default withPageAuthRequired(
             <div className={journalStyles.journal}>
               <h1>Journal</h1>
                 <p> {text} </p>
+                <form onSubmit={handleSubmit}>
+                  <button type="submit">Submit</button>
+                </form>
             </div>
-            /* <form onSubmit={handleSubmit}>
-            <textarea value={text} onChange={e => setText(e.target.value)} />
-            <button type="submit">Submit</button>
-            </form> */
           }
         </div>
-        
       </main>
     )
   }
