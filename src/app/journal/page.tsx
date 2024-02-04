@@ -27,10 +27,12 @@ export default withPageAuthRequired(
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       try {
-        const response = await axios.post('http://localhost:8000/v1/embeddings/create', { 
+        const response = await axios.post('https://mirror-ai.onrender.com/v1/embeddings/create', { 
           'user_id': user?.sub,
           'text': text,
         });
+
+        console.log(response);
 
         // TODO: Catch errors with the API
       } catch (error) {
