@@ -16,7 +16,6 @@ export default withPageAuthRequired(
     const [response, setResponse] = useState('');
 
     const handleQuerySubmit = async (event: any) => {
-      //TODO: Call API
       console.log("Submitted this query:", query);
       try {
         const apiURL = process.env.NEXT_PUBLIC_API_URL + '/v1/queries/get';
@@ -24,11 +23,11 @@ export default withPageAuthRequired(
           user_id: user?.sub,
           prompt: query
         };
-        const response = await axios.get(apiURL, { params });
+        const apiResponse = await axios.get(apiURL, { params });
 
-        console.log("Response from API:", response.data);
+        console.log("Response from API:", apiResponse.data);
+        setResponse(apiResponse.data.response);
 
-        // TODO: Catch errors with the API
       } catch (error) {
         console.error(error);
       }
@@ -38,29 +37,29 @@ export default withPageAuthRequired(
       <main className={`${styles.main} ${styles.theme}`}>
         <Navbar/>
         <div className={chatStyles.chat}>
-            <Textarea
-                size="lg"
-                onValueChange={setQuery}
-                value={query}
-                placeholder="Ask yourself a question..."
-                maxRows={1}
-                fullWidth={true}
-              >
-              </Textarea>
-            <Button 
-              isIconOnly
-              onPress={handleQuerySubmit}
-              style={{
-                position: 'absolute', 
-                right: '5px', // Adjust as needed
-                top: '4px' // Adjust as needed
-              }}  
-            >
-              <SendRoundedIcon/>
-            </Button>
           <div>
             {response && <p>{response}</p>}
           </div>
+          <Textarea
+            size="lg"
+            onValueChange={setQuery}
+            value={query}
+            placeholder="Ask yourself a question..."
+            maxRows={1}
+            fullWidth={true}
+          >
+          </Textarea>
+          <Button 
+            isIconOnly
+            onPress={handleQuerySubmit}
+            style={{
+              position: 'absolute', 
+              right: '5px', // Adjust as needed
+              top: '4px' // Adjust as needed
+            }}  
+          >
+            <SendRoundedIcon/>
+          </Button>
         </div>
       </main>
     )
