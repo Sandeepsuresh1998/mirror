@@ -19,7 +19,7 @@ export default withPageAuthRequired(
       //TODO: Call API
       console.log("Submitted this query:", query);
       try {
-        const apiURL = 'https://mirror-ai.onrender.com/v1/queries/get';
+        const apiURL = process.env.NEXT_PUBLIC_API_URL + '/v1/queries/get';
         const params = {
           user_id: user?.sub,
           prompt: query
